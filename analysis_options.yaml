@@ -1,0 +1,21 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    - always_declare_return_types
+    - avoid_print
+    - prefer_final_locals
+    - unawaited_futures
+    - use_super_parameters
+    - sort_child_properties_last
+    - require_trailing_commas
+
+analyzer:
+  errors:
+    # Treat these as errors so CI fails loudly instead of silently drifting.
+    unused_import: error
+    unused_local_variable: error
+    dead_code: error
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"

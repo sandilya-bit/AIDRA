@@ -1,0 +1,65 @@
+name: aidra
+description: AIDRA — AI-Powered Disaster Response Platform. "Connecting Help Before It's Too Late."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI
+  cupertino_icons: ^1.0.6
+
+  # State management
+  flutter_riverpod: ^2.5.1
+
+  # Authentication (STEP 4): Firebase is the identity provider, AIDRA is the
+  # authorization server (it mints the role-bearing access JWT).
+  firebase_core: ^4.15.0
+  firebase_auth: ^6.7.0
+  google_sign_in: ^7.2.0
+
+  # Secure session storage: Keychain (iOS/macOS) and Keystore-backed
+  # AES-GCM (Android). Never store tokens in SharedPreferences.
+  flutter_secure_storage: ^11.2.0
+
+  # Routing
+  go_router: ^14.2.0
+
+  # Networking
+  dio: ^5.5.0
+
+  # Local persistence (offline-first)
+  shared_preferences: ^2.2.3
+
+  # Connectivity awareness
+  connectivity_plus: ^6.0.3
+
+  # Idempotency keys for offline-safe mutations
+  uuid: ^4.4.0
+
+  # Location
+  geolocator: ^13.0.1
+
+  # Media capture
+  image_picker: ^1.1.2
+  record: ^5.1.2
+  just_audio: ^0.9.39
+
+  # File system
+  path_provider: ^2.1.4
+
+  # Firebase extensions
+  firebase_storage: ^12.3.5
+  cloud_firestore: ^5.4.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true

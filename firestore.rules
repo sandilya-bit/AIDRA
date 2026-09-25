@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isStaff() { return signedIn() && request.auth.token.role in ['authority','ngo','superAdmin']; }
+    match /emergency_reports/{reportId} {
+      allow read: if signedIn() && (isStaff() || resource.data.reporter_id == request.auth.uid);
+      // All writes go through the authenticated backend so validation and
+      // PostgreSQL dual-write guarantees cannot be bypassed.
+      allow write: if false;
+    }
+    match /conversations/{conversationId} {
+      allow read: if signedIn() && (isStaff() || request.auth.uid in resource.data.member_ids);
+      allow write: if false;
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}
