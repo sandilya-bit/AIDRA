@@ -12,6 +12,11 @@ service cloud.firestore {
     match /conversations/{conversationId} {
       allow read: if signedIn() && (isStaff() || request.auth.uid in resource.data.member_ids);
       allow write: if false;
+
+      match /messages/{messageId} {
+        allow read: if signedIn() && (isStaff() || request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.member_ids);
+        allow write: if false;
+      }
     }
     match /{document=**} { allow read, write: if false; }
   }

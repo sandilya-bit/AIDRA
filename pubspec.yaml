@@ -52,9 +52,13 @@ dependencies:
   # File system
   path_provider: ^2.1.4
 
+  # Maps & Navigation
+  google_maps_flutter: ^2.9.0
+
   # Firebase extensions
   firebase_storage: ^12.3.5
   cloud_firestore: ^5.4.4
+  firebase_messaging: ^15.1.4
 
 dev_dependencies:
   flutter_test:

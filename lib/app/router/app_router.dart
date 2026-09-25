@@ -11,6 +11,7 @@ import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/otp_screen.dart';
 import '../../features/auth/presentation/register_screen.dart';
 import '../../features/auth/presentation/splash_screen.dart';
+import '../../features/chat/presentation/incident_chat_screen.dart';
 import '../../features/chat/presentation/support_chat_screen.dart';
 import '../../features/dashboard/presentation/home_dashboard_screen.dart';
 import '../../features/hospital/presentation/hospital_screen.dart';
@@ -43,6 +44,7 @@ abstract final class AppRoutes {
   static const String notifications = '/notifications';
   static const String profile = '/profile';
   static const String support = '/support';
+  static const String chat = '/chat/:id';
 }
 
 /// Bridges Riverpod auth state into GoRouter's `refreshListenable` so the
@@ -225,6 +227,14 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
         parentNavigatorKey: _rootNavigatorKey,
         builder: (BuildContext context, GoRouterState state) =>
             const SupportChatScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.chat,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (BuildContext context, GoRouterState state) {
+          final String conversationId = state.pathParameters['id'] ?? 'general';
+          return IncidentChatScreen(conversationId: conversationId);
+        },
       ),
     ],
     errorBuilder: (BuildContext context, GoRouterState state) => _RouteNotFound(

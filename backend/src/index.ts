@@ -4,10 +4,12 @@ import cors from 'cors';
 import morgan from 'morgan';
 import * as dotenv from 'dotenv';
 
+import * as path from 'path';
 import { checkConnection } from './db';
 import { initFirebase } from './firebase';
 import reportsRouter from './routes/reports';
 import operationsRouter from './routes/operations';
+import chatRouter from './routes/chat';
 import { createRateLimiter } from './middleware/rate_limit';
 
 dotenv.config();
@@ -16,7 +18,7 @@ const app: Application = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
 // ── Security + parsing middleware ─────────────────────────────────────────
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(
   cors({
     origin: (process.env.CORS_ORIGINS || 'http://localhost:3000,http://localhost:5173').split(',').map((value) => value.trim()),
@@ -30,10 +32,13 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json({ limit: '5mb' }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(createRateLimiter());
+
+// Static file serving for uploads (local storage fallback)
+app.use('/uploads', express.static(path.resolve(process.cwd(), 'uploads')));
 
 // ── Health check ──────────────────────────────────────────────────────────
 app.get('/health', (_req: Request, res: Response) => {
@@ -47,6 +52,7 @@ app.get('/health', (_req: Request, res: Response) => {
 
 // ── API routes ────────────────────────────────────────────────────────────
 app.use('/v1/reports', reportsRouter);
+app.use('/v1/chat', chatRouter);
 app.use('/v1', operationsRouter);
 
 // ── 404 handler ───────────────────────────────────────────────────────────

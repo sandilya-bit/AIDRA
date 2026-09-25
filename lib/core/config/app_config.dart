@@ -60,6 +60,12 @@ abstract final class AppConfig {
   static const String firebaseStorageBucket =
       String.fromEnvironment('AIDRA_FIREBASE_STORAGE_BUCKET');
 
+  /// Google Maps SDK API Key (Android, iOS, Web).
+  static const String googleMapsApiKey =
+      String.fromEnvironment('AIDRA_GOOGLE_MAPS_API_KEY');
+
+  static bool get hasGoogleMapsKey => googleMapsApiKey.isNotEmpty;
+
   /// OAuth *server* client ID (the Web client ID from Google Cloud Console).
   /// Required on Android to receive an `idToken` from Google Sign-In.
   static const String googleServerClientId =

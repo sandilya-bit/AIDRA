@@ -14,7 +14,7 @@ import '../../../core/models/resource_item.dart';
 import '../../../core/models/volunteer.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/app_widgets.dart';
-import '../../../core/widgets/tactical_map.dart';
+import '../../../core/widgets/google_map_view.dart';
 import '../../hospital/presentation/hospital_providers.dart';
 import '../../incidents/presentation/incident_providers.dart';
 import '../../resources/presentation/resource_providers.dart';
@@ -91,10 +91,9 @@ class _LiveMapScreenState extends ConsumerState<LiveMapScreen> {
             child: Stack(
               children: <Widget>[
                 Positioned.fill(
-                  child: TacticalMap(
+                  child: GoogleMapView(
                     pins: pins,
                     center: kOpsCenter,
-                    metresPerPixel: 14 / _zoomLevel,
                     selectedPinId: _selectedIncidentId,
                     onPinTap: _onPinTap,
                   ),
